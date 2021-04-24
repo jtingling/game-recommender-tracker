@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FormControl, InputLabel, Input, Button, Card, CardContent } from '@material-ui/core';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 function App() {
   const [gameName, setGameName] = useState();
@@ -27,7 +28,7 @@ function App() {
         return (
           <Card>
             <CardContent>
-              <li key={gameData.id}>{game.name}</li>
+              <li key={game.id}>{game.name}</li>
               {console.log(game.name)}
               <img src={`https://static-cdn.jtvnw.net/ttv-boxart/${game.name}-300x300.jpg`} alt='box-art' />
             </CardContent>
@@ -43,7 +44,7 @@ function App() {
         console.log(name);
         return (
           <Card>
-            <li>{games.Name}</li>
+            <li key={Math.random()}>{games.Name}</li>
             <img src={`https://static-cdn.jtvnw.net/ttv-boxart/${name}-300x300.jpg`} alt='box-art' />
           </Card>
         )
