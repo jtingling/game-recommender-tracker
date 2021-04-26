@@ -1,47 +1,63 @@
-import { useState } from 'react'
-import { FormControl, InputLabel, Input, Button, Card, CardContent } from '@material-ui/core';
+import React, { useState} from 'react'
+
+import GameCard from './GameCard';
+
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper'
+import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
+const  GameContext = React.createContext()
+
+const useStyles = makeStyles({
+  root: {
+    backgroundColor: "gray"
+  },
+  card: {
+    maxWidth: "1fr",
+    display: "flex",
+    rowGap: "5px",
+    flexWrap: "wrap",
+    justifyContent: "flex-start"
+  }
+});
 
 function App() {
   const [gameName, setGameName] = useState();
   const [gameData, setGameData] = useState();
   const [recommendations, setRecommendations] = useState();
+  const classes = useStyles();
   const handleChange = (e) => {
     setGameName(e.target.value)
   }
   const submitGame = (e) => {
-    console.log(gameName)
     e.preventDefault();
     fetch(`http://localhost:5000/games/${gameName}`)
       .then(response => response.json())
       .then(data => setGameData(data))
+      .catch(e => console.log(e));
   }
   const submitRecommendations = () => {
     fetch(`http://localhost:5000/recommendations`)
       .then(response => response.json())
       .then(data => setRecommendations(data))
+      .catch(e => console.log(e))
   }
 
   const handleGameData = () => {
-    return (
-      <ul>{gameData.map((game) => {
+      return gameData.map((game) => {
         return (
-          <Card>
-            <CardContent>
-              <li key={game.id}>{game.name}</li>
-              {console.log(game.name)}
-              <img src={`https://static-cdn.jtvnw.net/ttv-boxart/${game.name}-300x300.jpg`} alt='box-art' />
-            </CardContent>
-          </Card>
+          <GameCard game={game}/>
         )
-      })}</ul>
-    )
+      })
   }
+  /*
   const handleRecommendedData = () => {
     return (
       <ul>{recommendations.Similar.Results.map((games) => {
         let name = games.Name.replaceAll(' ', "%20")
-        console.log(name);
         return (
           <Card>
             <li key={Math.random()}>{games.Name}</li>
@@ -51,8 +67,10 @@ function App() {
       })}</ul>
     )
   }
+  */
   return (
-    <>
+    <Paper elevation={1}>
+    <GameContext.Provider value={{gameData: gameData}}>
       <form onSubmit={submitGame}>
         <FormControl >
           <InputLabel htmlFor="my-input">Game Name</InputLabel>
@@ -60,15 +78,13 @@ function App() {
         </FormControl>
       </form>
       <h1>Search Results:</h1>
-      {
-        gameData !== undefined ? handleGameData() : <></>
-      }
-      <h1>Recommendations:</h1>
-      <Button onClick={() => submitRecommendations()}>Get Recommendations</Button>
-      {
-        recommendations !== undefined ? handleRecommendedData() : <></>
-      }
-    </>
+      <div className={classes.card}>
+        {
+          gameData !== undefined ? handleGameData() : <></>
+        }
+      </div>
+    </GameContext.Provider>
+    </Paper>
   )
 }
 
