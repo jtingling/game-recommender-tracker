@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-const  GameContext = React.createContext()
+const GameContext = React.createContext();
 
 const useStyles = makeStyles({
   root: {
@@ -70,20 +70,19 @@ function App() {
   */
   return (
     <Paper elevation={1}>
-    <GameContext.Provider value={{gameData: gameData}}>
       <form onSubmit={submitGame}>
         <FormControl >
           <InputLabel htmlFor="my-input">Game Name</InputLabel>
           <Input id="my-input" aria-describedby="my-helper-text" value={gameName} onChange={handleChange} />
         </FormControl>
       </form>
-      <h1>Search Results:</h1>
+      <GameContext.Provider value={{gameDetail: gameData}}>
       <div className={classes.card}>
         {
           gameData !== undefined ? handleGameData() : <></>
         }
       </div>
-    </GameContext.Provider>
+      </GameContext.Provider>
     </Paper>
   )
 }
