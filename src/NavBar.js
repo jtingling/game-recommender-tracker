@@ -14,6 +14,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
+import TabPanels from './TabPanels';
+
 const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
@@ -181,15 +183,10 @@ const NavBar = () => {
                             />
                         </form>
                     </div>
-                    <div className={classes.grow} />
-                    <div className={classes.sectionDesktop}>
-                    </div>
-                    <div className={classes.sectionMobile}>
-                    </div>
+                    <TabPanels/>
                 </Toolbar>
+                
             </AppBar>
-            {renderMobileMenu}
-            {renderMenu}
         </div>
     );
 }

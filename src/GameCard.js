@@ -67,7 +67,7 @@ const GameCard = (props) => {
                                 className={classes.media}
                                 image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${coverURI[0].image_id}.jpg`}
                                 title={props.game.name}>
-                                <AddCircleOutlineIcon className={classes.icon} fontSize="large" />
+                                <AddCircleOutlineIcon onClick={()=> console.log("it works")} className={classes.icon} fontSize="large" />
                             </CardMedia>
                     }
                     <CardContent>
@@ -94,7 +94,6 @@ const GameCard = (props) => {
                                 <p>Video not available</p>
                             </GameModal> :
                             <GameModal game={props.game} type={"Watch Trailer"}>
-                                {console.log(trailerData)}
                                 <iframe
                                     width="853"
                                     height="480"

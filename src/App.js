@@ -6,7 +6,7 @@ import NavBar from './NavBar';
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles';
 import { Switch, Route, useLocation } from 'react-router-dom';
-
+import TabPanel from './TabPanel';
 export const GameContext = React.createContext();
 
 const useStyles = makeStyles({
@@ -25,6 +25,11 @@ function App() {
   const [gameNameData, setGameName] = useState();
   const [gameData, setGameData] = useState();
   const [recommendations, setRecommendations] = useState();
+  const [tabValue, setTabValue] = React.useState(0);
+
+  const handleTabChange = (event, newValue) => {
+      setTabValue(newValue);
+  };
   const classes = useStyles();
 
   const submitGame = (e) => {
@@ -51,6 +56,9 @@ function App() {
         )
       })
   }
+  const getList = () => {
+    return <TabPanel value={tabValue} index={0}><h1>Tab Panel {tabValue}</h1></TabPanel>
+  }
   /*
   const handleRecommendedData = () => {
     return (
@@ -71,13 +79,17 @@ function App() {
       <GameContext.Provider value={{
         submit: submitGame,
         setNameValue: handleGameName,
+        handleTabValue: handleTabChange,
+        tabValue: tabValue,
         gameName: gameNameData
         }}>
         <NavBar/>
         <div className={classes.card}>
+          {console.log(tabValue)}
           {
-            gameData !== undefined ? handleGameData() : <></>
+            gameData !== undefined ? handleGameData() : getList()
           }
+          
         </div>
       </GameContext.Provider>
     </Paper>
