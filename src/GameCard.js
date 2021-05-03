@@ -11,8 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import Box from '@material-ui/core/Box';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import GameDetails from './GameDetails';
 
-import GameDetail from './GameDetail'
+import GameModal from './GameModal'
 
 const useStyles = makeStyles({
     root: {
@@ -45,12 +46,13 @@ const GameCard = (props) => {
     }
     const getGameTrailer = () => {
         fetch(`http://localhost:5000/video/${props.game.name}`)
+        .then( response => response.json())
             .then(videoId => setTrailer(videoId))
             .catch(e => console.log(e))
     }
     useEffect(() => {
         getBoxArt();
-        //getGameTrailer();
+        getGameTrailer();
     }, [props.game.name])
 
     return (
@@ -83,26 +85,26 @@ const GameCard = (props) => {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <GameDetail type={"See More..."}>
-                        <h2 id="spring-modal-title">{props.game.name}</h2>
-                        <p id="spring-modal-description">{props.game.summary}</p>
-                    </GameDetail>
+                    <GameModal type={"See More..."}>
+                            <GameDetails game={props.game}/>
+                    </GameModal>
                     {
                         trailerData === undefined ? 
-                            <GameDetail type={"Error"}>
+                            <GameModal type={"Trailer Unavailable"}>
                                 <p>Video not available</p>
-                            </GameDetail> :
-                            <GameDetail game={props.game} type={"Watch Trailer"}>
+                            </GameModal> :
+                            <GameModal game={props.game} type={"Watch Trailer"}>
+                                {console.log(trailerData)}
                                 <iframe
                                     width="853"
                                     height="480"
                                     src={`https://www.youtube.com/embed/${trailerData}`}
                                     frameBorder="0"
-                                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
                                     allowFullScreen
+                                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
                                     title={props.game.name}
                                 />
-                            </GameDetail>
+                            </GameModal>
                     }
                 </CardActions>
             </Card>
@@ -110,4 +112,4 @@ const GameCard = (props) => {
     );
 }
 
-export default GameCard
+export default GameCard;

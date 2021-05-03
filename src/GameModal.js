@@ -51,7 +51,7 @@ Fade.propTypes = {
     onExited: PropTypes.func,
 };
 
-export default function GameDetail(props) {
+export default function GameModal(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
