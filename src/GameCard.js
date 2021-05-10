@@ -10,9 +10,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import Box from '@material-ui/core/Box';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import GameDetails from './GameDetails';
 
+import AddToList from './AddToList';
+import GameDetails from './GameDetails';
 import GameModal from './GameModal'
 
 const useStyles = makeStyles({
@@ -32,12 +32,22 @@ const useStyles = makeStyles({
     }
 });
 
-
 const GameCard = (props) => {
     const classes = useStyles();
     const context = useContext(GameContext);
     const [trailerData, setTrailer] = useState();
     const [coverURI, setCoverURI] = useState();
+
+    const removeGameFromList = () => {
+        const data = props.game;
+        fetch(`http://localhost:5000/remove/${data.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .catch((err) => console.log("Error: ", err))
+    }
 
     const getBoxArt = () => {
         fetch(`http://localhost:5000/boxart/${props.game.cover}`)
@@ -46,13 +56,13 @@ const GameCard = (props) => {
     }
     const getGameTrailer = () => {
         fetch(`http://localhost:5000/video/${props.game.name}`)
-        .then( response => response.json())
+            .then(response => response.json())
             .then(videoId => setTrailer(videoId))
             .catch(e => console.log(e))
     }
     useEffect(() => {
         getBoxArt();
-        getGameTrailer();
+        //getGameTrailer();
     }, [props.game.name])
 
     return (
@@ -67,7 +77,6 @@ const GameCard = (props) => {
                                 className={classes.media}
                                 image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${coverURI[0].image_id}.jpg`}
                                 title={props.game.name}>
-                                <AddCircleOutlineIcon onClick={()=> console.log("it works")} className={classes.icon} fontSize="large" />
                             </CardMedia>
                     }
                     <CardContent>
@@ -86,10 +95,10 @@ const GameCard = (props) => {
                 </CardActionArea>
                 <CardActions>
                     <GameModal type={"See More..."}>
-                            <GameDetails game={props.game}/>
+                        <GameDetails game={props.game} />
                     </GameModal>
                     {
-                        trailerData === undefined ? 
+                        trailerData === undefined ?
                             <GameModal type={"Trailer Unavailable"}>
                                 <p>Video not available</p>
                             </GameModal> :
@@ -105,6 +114,7 @@ const GameCard = (props) => {
                                 />
                             </GameModal>
                     }
+                    <AddToList game={props.game}/>
                 </CardActions>
             </Card>
         </Box>
