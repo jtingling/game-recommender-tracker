@@ -50,7 +50,7 @@ export default function AddToList(props) {
 
   return (
     <div>
-      <Button size="small" color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+      <Button variant="contained" size="small" color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
         Add to List
       </Button>
       <Menu
