@@ -1,13 +1,14 @@
-import React, { useState} from 'react'
+import React, { useEffect, useState} from 'react'
 
 import GameCard from './GameCard';
 import NavBar from './NavBar';
-
-import Paper from '@material-ui/core/Paper'
-
-import { Switch, Route  } from 'react-router-dom';
 import List from './List';
 import SearchResult from './SearchResult';
+
+import Paper from '@material-ui/core/Paper'
+import { CssBaseline } from '@material-ui/core'
+import getIdentifier from './identifier';
+
 
 export const GameContext = React.createContext();
 
@@ -17,7 +18,7 @@ function App() {
   const [gameNameData, setGameName] = useState();
   const [gameData, setGameData] = useState();
   const [tabValue, setTabValue] = React.useState(0);
-
+  const [favouriteGames, setFavouriteGames] = useState();
   const handleTabChange = (event, newValue) => {
       setTabValue(newValue);
   };
@@ -34,36 +35,38 @@ function App() {
     setGameName(e.target.value)
   }
 
-  const handleGameData = () => {
-      return gameData.map((game) => {
+  const handleGameData = (dataType) => {
+    try{
+      return dataType.map((game) => {
         return (
           <GameCard game={game}/>
         )
       })
+    } catch (e) {
+        return <h1>Make a search...</h1>
+    }
   }
-  const getList = () => {
-    //TODO: read data from DB, render <GameCard> with game data
-  }
+
+  useEffect(()=> {
+    getIdentifier();
+  }, [])
 
   return (
     <Paper elevation={1}>
+      <CssBaseline />
       <GameContext.Provider value={{
         submit: submitGame,
         setNameValue: handleGameName,
         handleTabValue: handleTabChange,
         tabValue: tabValue,
-        gameName: gameNameData
+        gameName: gameNameData,
+        favouriteGamesList: favouriteGames,
+        setFavourites: setFavouriteGames
         }}>
         <NavBar/>
         <div>
-          <Switch>
-            <Route path="/list/:id">
-              <List></List>
-            </Route>
-            <Route path="/">
-              <SearchResult getGameData={gameData} getGames={handleGameData} />
-            </Route>
-          </Switch>       
+          {tabValue === 0 && <SearchResult getGameData={gameData} getGames={handleGameData(gameData)} />}
+          {tabValue === 1 && <List getGames={handleGameData(favouriteGames)}/>}
         </div>
       </GameContext.Provider>
     </Paper>
