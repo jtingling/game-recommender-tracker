@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
-import { GameContext } from './App'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -26,21 +26,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AddToList(props) {
+export default function RemoveGameFromList(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const classes = useStyles();
-  const context = useContext(GameContext)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const removeGame = () => {
+    const data = props.game;
+    fetch(`http://localhost:5000/remove`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+      .catch((err) => console.log("Error: ", err))
+  }
 
   return (
     <div>
       <Button variant="contained" size="small" color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        Add to List
+        Remove from List
       </Button>
       <Menu
         id="simple-menu"
@@ -49,7 +59,7 @@ export default function AddToList(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => { handleClose(); props.saveFavourites(); props.saveGame(); }}>Favourite Games</MenuItem>
+        <MenuItem onClick={() => { handleClose(); removeGame() }}>Favourite Games</MenuItem>
       </Menu>
     </div>
   );

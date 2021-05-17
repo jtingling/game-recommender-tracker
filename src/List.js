@@ -1,11 +1,44 @@
 import { useContext, useState, useEffect } from 'react';
-import { Switch, Route  } from 'react-router-dom';
+import GameCard from './GameCard';
 import { GameContext } from './App'
+import { makeStyles } from '@material-ui/core/styles';
 
-const List = () => {
+const useStyles = makeStyles({
+    root: {
+        backgroundColor: "gray"
+    },
+    card: {
+        maxWidth: "1fr",
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "flex-start"
+    }
+});
+
+const List = (props) => {
     const context = useContext(GameContext);
+    const classes = useStyles();
+
+    const handleGameData = () => {
+        try{
+          return context.favourites.map((game) => {
+            return (
+              <GameCard game={game} listed={true}/>
+            )
+          })
+        } catch (e) {
+            return <h1>unable to get Favourites</h1>
+        }
+      }
+
+    useEffect(() => {
+        context.getGameById();
+    }, [])
     return (
-        <h1>A list of games</h1>
+        <div className={classes.card}>
+            { context.favourites === undefined ? <h1>Loading...</h1> : handleGameData()}
+        </div>
+
     )
 }
 

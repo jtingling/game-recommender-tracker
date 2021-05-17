@@ -14,6 +14,7 @@ import Box from '@material-ui/core/Box';
 import AddToList from './AddToList';
 import GameDetails from './GameDetails';
 import GameModal from './GameModal'
+import RemoveGameFromList from './RemoveFromList';
 
 const useStyles = makeStyles({
     root: {
@@ -38,16 +39,6 @@ const GameCard = (props) => {
     const [trailerData, setTrailer] = useState();
     const [coverURI, setCoverURI] = useState();
 
-    const removeGameFromList = () => {
-        const data = props.game;
-        fetch(`http://localhost:5000/remove/${data.id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-            .catch((err) => console.log("Error: ", err))
-    }
 
     const getBoxArt = () => {
         fetch(`http://localhost:5000/boxart/${props.game.cover}`)
@@ -60,6 +51,35 @@ const GameCard = (props) => {
             .then(videoId => setTrailer(videoId))
             .catch(e => console.log(e))
     }
+    const saveToFavourites = () => {
+        let data = {};
+        data.gameId = props.game.id;
+        data.favouriteId = window.localStorage.getItem("key")
+        fetch(`http://localhost:5000/add/favourites`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+            .catch((err) => console.log("Error: ", err))
+    }
+    const saveTheGame = () => {
+        console.log(props.game)
+        const data = props.game;
+        fetch("http://localhost:5000/add/game", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(e => console.log(e));
+    }
+
+    
     useEffect(() => {
         getBoxArt();
         //getGameTrailer();
@@ -114,7 +134,8 @@ const GameCard = (props) => {
                                 />
                             </GameModal>
                     }
-                    <AddToList game={props.game}/>
+                    {props.listed && <RemoveGameFromList/>} 
+                    {props.listed === false && <AddToList game={props.game} saveGame={saveTheGame} saveFavourites={saveToFavourites}/>}
                 </CardActions>
             </Card>
         </Box>
