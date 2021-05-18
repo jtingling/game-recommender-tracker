@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { GameContext } from './App'
+
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -29,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 export default function RemoveGameFromList(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const classes = useStyles();
+  const context = useContext(GameContext)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -36,7 +39,18 @@ export default function RemoveGameFromList(props) {
     setAnchorEl(null);
   };
   const removeGame = () => {
-    const data = props.game;
+    let data = {}
+    data.id = props.game.id;
+    data.favouriteListKey = window.localStorage.getItem("key");
+    data.newFavourites = [];
+
+    const updatedFavourites = context.favourites.filter((game)=>{
+      return game.id !== props.game.id
+    })
+    data.newFavourites = updatedFavourites.map((game)=> {
+      return game.id;
+    })
+
     fetch(`http://localhost:5000/remove`, {
       method: 'POST',
       headers: {
@@ -44,13 +58,15 @@ export default function RemoveGameFromList(props) {
       },
       body: JSON.stringify(data)
     })
+      .then( response => response.json())
+      .then( data => context.setFavourites(data))
       .catch((err) => console.log("Error: ", err))
   }
 
   return (
     <div>
       <Button variant="contained" size="small" color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        Remove from List
+        Remove from Favourites
       </Button>
       <Menu
         id="simple-menu"

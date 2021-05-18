@@ -27,13 +27,13 @@ const List = (props) => {
             )
           })
         } catch (e) {
-            return <h1>unable to get Favourites</h1>
+            return <h1>Please wait...</h1>
         }
       }
 
     useEffect(() => {
         context.getGameById();
-    }, [])
+    })
     return (
         <div className={classes.card}>
             { context.favourites === undefined ? <h1>Loading...</h1> : handleGameData()}
