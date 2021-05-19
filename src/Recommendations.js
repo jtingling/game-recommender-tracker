@@ -58,14 +58,15 @@ const Recommendations = (props) => {
 
     useEffect(() => {
         mergeSimilarGamesList();
-        console.log(similarGames)
     }, [])
 
-    useEffect(() => {
-        fetch(`http://localhost:5000/favourites?gameIds=${similarGames}`)
-            .then(response => response.json())
-            .then(data => setRecommendedGames(data))
-            .catch(e => console.log(e)) 
+    useEffect(async () => {
+        if (similarGames !== undefined) {
+            await fetch(`http://localhost:5000/favourites?id=${similarGames}`)
+                .then(response => response.json())
+                .then(data => setRecommendedGames(data))
+                .catch(e => console.log(e))
+        }
     }, [similarGames])
 
     return (
