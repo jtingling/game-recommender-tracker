@@ -1,6 +1,6 @@
 import React from "react";
 import { GameContext } from './App'
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 
 import { fade, makeStyles } from '@material-ui/core/styles';

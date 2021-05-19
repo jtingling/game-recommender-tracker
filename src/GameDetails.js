@@ -8,18 +8,11 @@ const useStyles = makeStyles({
     },
     header: {
         textAlign: 'left'
-    },
-    body: {
-
-    },
-    footer: {
-
     }
 });
 
 const GameDetails = (props) => {
     const classes = useStyles();
-    const genres = []
     const displayGenres = () => {
         return props.game.genres.map((genre) => {
             return <Box mx={0.2} component="span"><Chip label={genre.name} /></Box>

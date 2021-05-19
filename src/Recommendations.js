@@ -1,7 +1,6 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import GameContext from './App';
 
 const useStyles = makeStyles({
     root: {
@@ -16,7 +15,6 @@ const useStyles = makeStyles({
 });
 
 const Recommendations = (props) => {
-    const context = useContext(GameContext);
     const [similarGames, setSimilarGames] = useState();
     const [recommendatedGames, setRecommendedGames] = useState([]);
     const classes = useStyles();
@@ -60,6 +58,7 @@ const Recommendations = (props) => {
 
     useEffect(() => {
         mergeSimilarGamesList();
+        console.log(similarGames)
     }, [])
 
     useEffect(() => {

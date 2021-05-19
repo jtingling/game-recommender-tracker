@@ -4,7 +4,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useContext } from 'react';
 import { GameContext } from './App'
-import { Link } from 'react-router-dom';
 
 function a11yProps(index) {
     return {
