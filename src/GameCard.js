@@ -67,7 +67,6 @@ const GameCard = (props) => {
     }
     const saveTheGame = () => {
         const data = props.game;
-        console.log(data);
         fetch("http://localhost:5000/add/game", {
             method: 'POST',
             headers: {
@@ -76,7 +75,6 @@ const GameCard = (props) => {
             body: JSON.stringify(data)
         })
             .then(response => response.json())
-            .then(data => console.log(data))
             .catch(e => console.log(e));
     }
     const renderListButton = () => {
