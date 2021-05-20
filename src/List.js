@@ -36,7 +36,6 @@ const List = (props) => {
     }, [])
     return (
         <div className={classes.card}>
-            {console.log(context.favourites)}
             { context.favourites === undefined ? <h1>Loading...</h1> : handleGameData()}
         </div>
 
