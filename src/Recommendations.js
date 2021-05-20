@@ -65,7 +65,7 @@ const Recommendations = (props) => {
     useEffect(() => {
         if (similarGames !== undefined) {
             async function fetchRecommendedGames () {
-                await fetch(`http://localhost:5000/favourites?id=${similarGames}`)
+                await fetch(`https://game-recommender-be.herokuapp.com/favourites?id=${similarGames}`)
                 .then(response => response.json())
                 .then(data => setRecommendedGames(data))
                 .catch(e => console.log(e))

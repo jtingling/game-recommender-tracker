@@ -25,7 +25,7 @@ function App() {
 
   const submitGame = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5000/games/${gameNameData}`)
+    fetch(`https://game-recommender-be.herokuapp.com/games/${gameNameData}`)
       .then(response => response.json())
       .then(data => setGameData(data))
       .catch(e => console.log(e));
@@ -37,10 +37,10 @@ function App() {
   const getGameDataFromFavourites = () => {
     const identifier = window.localStorage.getItem("key");
     try {
-      fetch(`http://localhost:5000/getList/${identifier}`)
+      fetch(`https://game-recommender-be.herokuapp.com/getList/${identifier}`)
       .then(response => response.json())
       .then( data => {
-          fetch(`http://localhost:5000/favourites?id=${data}`)
+          fetch(`https://game-recommender-be.herokuapp.com/favourites?id=${data}`)
               .then(response => response.json())
               .then( data => {setFavourites(data)})
               .catch(e => console.error(e))

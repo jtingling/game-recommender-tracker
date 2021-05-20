@@ -39,7 +39,7 @@ const GameCard = (props) => {
     const [trailerData, setTrailer] = useState(false);
 
     const getGameTrailer = () => {
-        fetch(`http://localhost:5000/video/${props.game.name}`)
+        fetch(`https://game-recommender-be.herokuapp.com/video/${props.game.name}`)
             .then(response => response.json())
             .then(videoId => setTrailer(videoId))
             .catch(e => console.log(e))
@@ -48,7 +48,7 @@ const GameCard = (props) => {
         let data = {};
         data.id = props.game.id;
         data.favouriteId = window.localStorage.getItem("key")
-        fetch(`http://localhost:5000/add/favourites`, {
+        fetch(`https://game-recommender-be.herokuapp.com/add/favourites`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const GameCard = (props) => {
         })
             .then( (response) => response.json())
             .then((data) => {
-                fetch(`http://localhost:5000/favourites?id=${data.id}`)
+                fetch(`https://game-recommender-be.herokuapp.com/favourites?id=${data.id}`)
                     .then(response => response.json())
                     .then( data => context.setFavourites(data)) 
                     .catch(e => console.error(e))
@@ -66,7 +66,7 @@ const GameCard = (props) => {
     }
     const saveTheGame = () => {
         const data = props.game;
-        fetch("http://localhost:5000/add/game", {
+        fetch("https://game-recommender-be.herokuapp.com/add/game", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
