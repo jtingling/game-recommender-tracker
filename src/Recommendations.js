@@ -19,26 +19,27 @@ const Recommendations = (props) => {
     const [recommendatedGames, setRecommendedGames] = useState([]);
     const classes = useStyles();
 
-    const buildSimilarGamesList = () => {
-        if (props.favourites !== undefined) {
-            return props.favourites.map((game) => {
-                if (game.similar_games !== undefined ) {
-                    return game.similar_games;
-                } else {
-                    return 111026 //default game if field is missing
-                }
-            })
-        } else {
-            return [];
-        }
-    }
-    const mergeSimilarGamesList = () => {
-        let similarGames = buildSimilarGamesList();
-        let mergedList = [];
-        const gameIdSet = new Set();
-        let gameItr;
-        let finalList = [];
-        let counter = 0;
+    useEffect(() => {    
+        const mergeSimilarGamesList = () => {
+            let similarGames;
+            let mergedList = [];
+            const gameIdSet = new Set();
+            let gameItr;
+            let finalList = [];
+            let counter = 0;
+
+            if (props.favourites !== undefined) {
+                similarGames = props.favourites.map((game) => {
+                    if (game.similar_games !== undefined ) {
+                        return game.similar_games;
+                    } else {
+                        return 111026 //default game id if field is missing
+                    }
+                })
+            } else {
+                return [];
+            }
+
         if (similarGames.length !== 0) {
             for (const list of similarGames) {
                 mergedList.push(list);
@@ -58,11 +59,8 @@ const Recommendations = (props) => {
             setSimilarGames([]);
         }
     }
-
-
-    useEffect(() => {
         mergeSimilarGamesList();
-    }, [])
+    }, [props.favourites])
 
     useEffect(() => {
         if (similarGames !== undefined) {
