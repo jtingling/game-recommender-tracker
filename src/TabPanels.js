@@ -37,7 +37,6 @@ export default function ScrollableTabsButtonAuto() {
                 value={context.tabValue}
                 onChange={context.handleTabValue}
                 indicatorColor="primary"
-                textColorInherit
                 variant="scrollable"
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
