@@ -34,8 +34,7 @@ export default function RemoveGameFromList(props) {
       },
       body: JSON.stringify(data)
     })
-      .then( response => response.json())
-      .then( data => context.setFavourites(data))
+      .then( () => context.setFavourites(updatedFavourites))
       .catch((err) => console.log("Error: ", err))
   }
 

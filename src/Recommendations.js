@@ -22,7 +22,11 @@ const Recommendations = (props) => {
     const buildSimilarGamesList = () => {
         if (props.favourites !== undefined) {
             return props.favourites.map((game) => {
-                return game.similar_games;
+                if (game.similar_games !== undefined ) {
+                    return game.similar_games;
+                } else {
+                    return 111026 //default game if field is missing
+                }
             })
         } else {
             return [];
@@ -60,12 +64,15 @@ const Recommendations = (props) => {
         mergeSimilarGamesList();
     }, [])
 
-    useEffect(async () => {
+    useEffect(() => {
         if (similarGames !== undefined) {
-            await fetch(`http://localhost:5000/favourites?id=${similarGames}`)
+            async function fetchRecommendedGames () {
+                await fetch(`http://localhost:5000/favourites?id=${similarGames}`)
                 .then(response => response.json())
                 .then(data => setRecommendedGames(data))
                 .catch(e => console.log(e))
+            }
+            fetchRecommendedGames();
         }
     }, [similarGames])
 

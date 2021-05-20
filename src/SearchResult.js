@@ -19,7 +19,7 @@ const SearchResult = (props) => {
     return (
         <div className={classes.card}>
           {
-            props.getGameData !== undefined && props.matchedGames !== undefined ? props.getGames() : <></>
+            props.getGameData !== undefined ? props.getGames(props.getGameData) : <h1>Search results show here</h1>
           }
         </div>
     )

@@ -63,8 +63,8 @@ export default function GameModal(props) {
     };
 
     return (
-        <div>
-            <Button size="small" color="primary" onClick={handleOpen}>{props.type}</Button>
+        <div onClick={props.onClick}>
+            <Button size="small" variant="contained" color="primary" onClick={handleOpen}>{props.type === undefined ? <></> : props.type}</Button>
             <Modal
                 aria-labelledby="spring-modal-title"
                 aria-describedby="spring-modal-description"

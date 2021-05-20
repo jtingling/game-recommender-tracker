@@ -14,14 +14,22 @@ const useStyles = makeStyles({
 const GameDetails = (props) => {
     const classes = useStyles();
     const displayGenres = () => {
-        return props.game.genres.map((genre) => {
-            return <Box mx={0.2} component="span"><Chip label={genre.name} /></Box>
-        })
+        if (props.game.genres !== undefined ) {
+            return props.game.genres.map((genre) => {
+                return <Box mx={0.2} component="span"><Chip label={genre.name} /></Box>
+            })
+        } else {
+            return <></>
+        }
     }
     const displayScreenshots = () => {
-        return props.game.screenshots.map((image) => {
-            return <img src={`https://images.igdb.com/igdb/image/upload/t_cover_small/${image.image_id}.jpg`} alt="game screenshot"/>
-        })
+        if (props.game.genres !== undefined ) {
+            return props.game.screenshots.map((image) => {
+                return <img src={`https://images.igdb.com/igdb/image/upload/t_cover_small/${image.image_id}.jpg`} alt="game screenshot"/>
+            })
+        } else {
+            return <></>
+        }
     }
     return (
         <div>

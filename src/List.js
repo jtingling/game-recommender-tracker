@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import GameCard from './GameCard';
 import { GameContext } from './App'
 import { makeStyles } from '@material-ui/core/styles';
@@ -33,9 +33,10 @@ const List = (props) => {
 
     useEffect(() => {
         context.getGameById();
-    })
+    }, [])
     return (
         <div className={classes.card}>
+            {console.log(context.favourites)}
             { context.favourites === undefined ? <h1>Loading...</h1> : handleGameData()}
         </div>
 

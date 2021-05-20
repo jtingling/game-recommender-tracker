@@ -4,6 +4,7 @@ import GameCard from './GameCard';
 import NavBar from './NavBar';
 import List from './List';
 import SearchResult from './SearchResult';
+import Recommendations from './Recommendations';
 
 import Paper from '@material-ui/core/Paper'
 import { CssBaseline } from '@material-ui/core'
@@ -16,9 +17,8 @@ function App() {
   const [gameNameData, setGameName] = useState();
   const [gameData, setGameData] = useState();
   const [tabValue, setTabValue] = React.useState(0);
-  const [isListed, setIsListed] = useState(false);
-  const [favourites, setFavourites] = useState();
-  const [onFavouritesList, setOnFavouritesList] = useState();
+  const [favourites, setFavourites] = useState([]);
+  
   const handleTabChange = (event, newValue) => {
       setTabValue(newValue);
   };
@@ -28,51 +28,43 @@ function App() {
     e.preventDefault();
     fetch(`http://localhost:5000/games/${gameNameData}`)
       .then(response => response.json())
-      .then(data => {setGameData(data)})
+      .then(data => setGameData(data))
       .catch(e => console.log(e));
   }
   const handleGameName = (e) => {
     setGameName(e.target.value)
   }
 
-  const getGameData = () => {
+  const getGameDataFromFavourites = () => {
     const identifier = window.localStorage.getItem("key");
-    fetch(`http://localhost:5000/getList/${identifier}`)
-        .then(response => response.json())
-        .then( data => {
-            fetch(`http://localhost:5000/favourites?gameIds=${data}`)
-                .then(response => response.json())
-                .then( data => setFavourites(data))
-            })
+    try {
+      fetch(`http://localhost:5000/getList/${identifier}`)
+      .then(response => response.json())
+      .then( data => {
+          fetch(`http://localhost:5000/favourites?id=${data}`)
+              .then(response => response.json())
+              .then( data => {setFavourites(data)})
+              .catch(e => console.error(e))
+          })
+    } catch (e) {
+        console.error(e);
+    }
+
   }
   const getMatchingFavouriteGames = () => {
-    let onList = [];
     let gameIds = [];
     favourites.forEach((favourite)=>{
       gameIds.push(favourite.id);
-      
     })
-    try {
-      if (gameData !== undefined) {
-        gameData.forEach((game)=>{
-          for (const id of gameIds ) {
-            if (game.id === id ) {
-              onList.push(id);
-            }
-          }
-        })
-        console.log(onList)
-        setOnFavouritesList(onList)
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    return gameIds
   }
 
-  const handleGameData = () => {
+  const handleGameData = (data) => {
+    const favouriteGamesIds = getMatchingFavouriteGames()
+    console.log(favouriteGamesIds)
     try{
-      return gameData.map((game) => {
-        if (onFavouritesList.length !== 0 && onFavouritesList.includes(game.id)) {
+      return data.map((game) => {
+        if (favouriteGamesIds.length !== 0 && favouriteGamesIds.includes(game.id)) {
           return <GameCard game={game} listed={true}/>          
         }
         return <GameCard game={game} listed={false}/>
@@ -85,16 +77,9 @@ function App() {
 
   useEffect(()=> {
     getIdentifier();
-    getGameData();
+    getGameDataFromFavourites();
   }, [])
-  useEffect(()=> {
-
-    if (gameData !== undefined) {
-      getMatchingFavouriteGames();
-      
-    }
-  }, [gameData])
-
+  
   return (
     <Paper elevation={1}>
       <CssBaseline />
@@ -104,16 +89,15 @@ function App() {
         handleTabValue: handleTabChange,
         tabValue: tabValue,
         gameName: gameNameData,
-        isFavourite: isListed,
-        setIsFavourite: setIsListed,
-        getGameById: getGameData,
+        getGameById: getGameDataFromFavourites,
         favourites: favourites,
         setFavourites: setFavourites
         }}>
         <NavBar/>
         <div>
-          {tabValue === 0 && <SearchResult getGameData={gameData} getGames={handleGameData} matchedGames={onFavouritesList}/>}
+          {tabValue === 0 && <SearchResult getGameData={gameData} getGames={handleGameData} />}
           {tabValue === 1 && <List/>}
+          {tabValue === 2 && <Recommendations favourites={favourites} getGames={handleGameData}/>}
         </div>
       </GameContext.Provider>
     </Paper>
