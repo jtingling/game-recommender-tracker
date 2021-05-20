@@ -6,7 +6,6 @@ import List from './List';
 import SearchResult from './SearchResult';
 import Recommendations from './Recommendations';
 
-import Paper from '@material-ui/core/Paper'
 import { CssBaseline } from '@material-ui/core'
 import getIdentifier from './identifier';
 
@@ -14,7 +13,7 @@ import getIdentifier from './identifier';
 export const GameContext = React.createContext();
 
 function App() {
-  const [gameNameData, setGameName] = useState();
+  const [gameNameData, setGameName] = useState("");
   const [gameData, setGameData] = useState();
   const [tabValue, setTabValue] = React.useState(0);
   const [favourites, setFavourites] = useState([]);
@@ -61,13 +60,12 @@ function App() {
 
   const handleGameData = (data) => {
     const favouriteGamesIds = getMatchingFavouriteGames()
-    console.log(favouriteGamesIds)
     try{
       return data.map((game) => {
         if (favouriteGamesIds.length !== 0 && favouriteGamesIds.includes(game.id)) {
-          return <GameCard game={game} listed={true}/>          
+          return <GameCard key={game.id} game={game} listed={true}/>          
         }
-        return <GameCard game={game} listed={false}/>
+        return <GameCard key={game.id} game={game} listed={false}/>
       })
     } catch (e) {
         console.log(e)
@@ -81,7 +79,7 @@ function App() {
   }, [])
   
   return (
-    <Paper elevation={1}>
+    <div>
       <CssBaseline />
       <GameContext.Provider value={{
         submit: submitGame,
@@ -100,7 +98,7 @@ function App() {
           {tabValue === 2 && <Recommendations favourites={favourites} getGames={handleGameData}/>}
         </div>
       </GameContext.Provider>
-    </Paper>
+    </div>
   )
 }
 

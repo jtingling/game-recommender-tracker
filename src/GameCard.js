@@ -37,7 +37,6 @@ const GameCard = (props) => {
     const classes = useStyles();
     const context = useContext(GameContext);
     const [trailerData, setTrailer] = useState(false);
-    const [isListed, setIsListed] = useState(null);
 
     const getGameTrailer = () => {
         fetch(`http://localhost:5000/video/${props.game.name}`)
@@ -79,9 +78,9 @@ const GameCard = (props) => {
     }
     const renderListButton = () => {
         if (props.listed) {
-            return <RemoveGameFromList game={props.game}/>
+            return <RemoveGameFromList key={props.game.id} game={props.game}/>
         } else {
-            return <AddToList game={props.game} saveGame={saveTheGame} saveFavourites={saveToFavourites} />
+            return <AddToList key={props.game.id} game={props.game} saveGame={saveTheGame} saveFavourites={saveToFavourites} />
         }
     }
 
@@ -103,11 +102,11 @@ const GameCard = (props) => {
                         <Typography gutterBottom variant="h5" component="h2">
                             {props.game.name}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
+                        <Typography variant="body2" color="textSecondary" component="h6">
                             {
                                 props.game.game_modes === undefined ? <></> :
                                     props.game.game_modes.map((modes) => {
-                                        return <Box mx={0.2} component="span"><Chip label={modes.name} /></Box>
+                                        return <Box key={modes.name} mx={0.2} component="span"><Chip label={modes.name} /></Box>
                                     })
                             }
                         </Typography>

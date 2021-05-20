@@ -23,7 +23,7 @@ const List = (props) => {
         try{
           return context.favourites.map((game) => {
             return (
-              <GameCard game={game} listed={true}/>
+              <GameCard key={game.id} game={game} listed={true}/>
             )
           })
         } catch (e) {
@@ -33,7 +33,7 @@ const List = (props) => {
 
     useEffect(() => {
         context.getGameById();
-    }, [])
+    }, [context])
     return (
         <div className={classes.card}>
             { context.favourites === undefined ? <h1>Loading...</h1> : handleGameData()}
