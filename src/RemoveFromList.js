@@ -20,21 +20,24 @@ export default function RemoveGameFromList(props) {
     data.favouriteListKey = window.localStorage.getItem("key");
     data.newFavourites = [];
 
-    const updatedFavourites = context.favourites.filter((game)=>{
+    const updatedFavourites = context.favourites.filter((game) => {
       return game.id !== props.game.id
     })
-    data.newFavourites = updatedFavourites.map((game)=> {
+    data.newFavourites = updatedFavourites.map((game) => {
       return game.id;
     })
 
-    fetch(`http://localhost:5000/remove`, {
+    fetch(`http://game-recommender-be.herokuapp.com/remove`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods': '*',
+        "Access-Control-Allow-Headers": "*"
       },
       body: JSON.stringify(data)
     })
-      .then( () => context.setFavourites(updatedFavourites))
+      .then(() => context.setFavourites(updatedFavourites))
       .catch((err) => console.log("Error: ", err))
   }
 

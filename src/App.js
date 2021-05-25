@@ -37,10 +37,28 @@ function App() {
   const getGameDataFromFavourites = () => {
     const identifier = window.localStorage.getItem("key");
     try {
-      fetch(`https://game-recommender-be.herokuapp.com/getList/${identifier}`)
+      fetch(`https://game-recommender-be.herokuapp.com/getList/${identifier}`,{
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            'Access-Control-Allow-Methods': '*',
+            "Access-Control-Allow-Headers": "*"
+        },
+        mode: 'cors',
+      })
       .then(response => response.json())
       .then( data => {
-          fetch(`https://game-recommender-be.herokuapp.com/favourites?id=${data}`)
+          fetch(`https://game-recommender-be.herokuapp.com/favourites?id=${data}`,{
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                'Access-Control-Allow-Methods': '*',
+                "Access-Control-Allow-Headers": "*"
+            },
+            mode: 'cors',
+          })
               .then(response => response.json())
               .then( data => {setFavourites(data)})
               .catch(e => console.error(e))
