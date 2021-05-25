@@ -19,17 +19,13 @@ import RemoveGameFromList from './RemoveFromList';
 const useStyles = makeStyles({
     root: {
         width: 345,
-        height: "auto"
+        height: "auto",
+        margin: "7px"
 
     },
     media: {
-        height: 345
-    },
-    icon: {
-        position: "absolute",
-        zIndex: 2,
-        right: 0,
-        backgroundColor: "white"
+        height: 345,
+        backgroundSize: "100% 100%"
     }
 });
 
@@ -86,7 +82,6 @@ const GameCard = (props) => {
 
 
     return (
-        <Box mx={0.5}>
             <Card className={classes.root} raised >
                 <CardActionArea> 
                     {   
@@ -130,7 +125,6 @@ const GameCard = (props) => {
                     {renderListButton()}
                 </CardActions>
             </Card>
-        </Box>
     );
 }
 

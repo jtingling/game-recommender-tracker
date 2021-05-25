@@ -9,7 +9,7 @@ const useStyles = makeStyles({
       maxWidth: "1fr",
       display: "flex",
       flexWrap: "wrap",
-      justifyContent: "flex-start"
+      justifyContent: "center"
     }
   });
 
@@ -19,7 +19,7 @@ const SearchResult = (props) => {
     return (
         <div className={classes.card}>
           {
-            props.getGameData !== undefined ? props.getGames(props.getGameData) : <h1>Search results show here</h1>
+            props.getGameData !== undefined ? props.getGames(props.getGameData) : <></>
           }
         </div>
     )

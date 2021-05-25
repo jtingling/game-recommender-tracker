@@ -6,12 +6,12 @@ const useStyles = makeStyles({
     root: {
         backgroundColor: "gray"
     },
-    card: {
+    card:  {
         maxWidth: "1fr",
         display: "flex",
         flexWrap: "wrap",
-        justifyContent: "flex-start"
-    }
+        justifyContent: "center"
+      }
 });
 
 const Recommendations = (props) => {

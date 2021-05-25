@@ -1,17 +1,14 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import GameCard from './GameCard';
 import { GameContext } from './App'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-    root: {
-        backgroundColor: "gray"
-    },
-    card: {
-        maxWidth: "1fr",
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "flex-start"
+    card:  {
+      maxWidth: "1fr",
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center"
     }
 });
 
@@ -23,17 +20,13 @@ const List = (props) => {
         try{
           return context.favourites.map((game) => {
             return (
-              <GameCard key={game.id} game={game} listed={true}/>
+              <GameCard key={game.id} game={game} listed={true} />
             )
           })
         } catch (e) {
             return <h1>Please wait...</h1>
         }
       }
-
-    useEffect(() => {
-        context.getGameById();
-    }, [context])
     return (
         <div className={classes.card}>
             { context.favourites === undefined ? <h1>Loading...</h1> : handleGameData()}

@@ -16,15 +16,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
-    tab: {
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-
-    }
 }));
 
 export default function ScrollableTabsButtonAuto() {
@@ -38,7 +29,7 @@ export default function ScrollableTabsButtonAuto() {
                 onChange={context.handleTabValue}
                 indicatorColor="primary"
                 variant="scrollable"
-                scrollButtons="auto"
+                scrollButtons="off"
                 aria-label="scrollable auto tabs example"
             >
                 <Tab label="Search" {...a11yProps(0)} />
