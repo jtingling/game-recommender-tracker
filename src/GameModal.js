@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -61,17 +61,38 @@ export default function GameModal(props) {
     const handleClose = () => {
         setOpen(false);
     };
+    useEffect(()=>{
+        if (props.isOpen) {
+            handleOpen()
+        } else {
+            handleClose()
+        }
+    }, [props.isOpen])
 
+    useEffect(()=>{
+        if (props.isVideoOpen) {
+            handleOpen()
+        } else {
+            handleClose()
+        }
+    }, [props.isVideoOpen])
+    useEffect(()=>{
+        if (props.isScreenShotsOpen) {
+            handleOpen()
+        } else {
+            handleClose()
+        }
+    }, [props.isScreenShotsOpen])
     return (
-        <div onClick={props.onClick}>
-            <Button size="small" variant="contained" color="primary" onClick={handleOpen}>{props.type === undefined ? <></> : props.type}</Button>
+        <div >
+            {
+                props.type !== undefined ? <Button size="small" variant="outline" color="primary" >{props.type}</Button> : <></>
+            }
             <Modal
                 aria-labelledby="spring-modal-title"
                 aria-describedby="spring-modal-description"
                 className={classes.modal}
                 open={open}
-                onClose={handleClose}
-                closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                     timeout: 500,
