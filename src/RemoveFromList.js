@@ -43,7 +43,7 @@ export default function RemoveGameFromList(props) {
 
   return (
     <div>
-      <Button variant="contained" size="small" color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+      <Button variant="outline" size="small" color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
         Remove from Favourites
       </Button>
       <Menu
