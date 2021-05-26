@@ -22,15 +22,6 @@ const GameDetails = (props) => {
             return <></>
         }
     }
-    const displayScreenshots = () => {
-        if (props.game.genres !== undefined ) {
-            return props.game.screenshots.map((image) => {
-                return <img src={`https://images.igdb.com/igdb/image/upload/t_cover_small/${image.image_id}.jpg`} alt="game screenshot"/>
-            })
-        } else {
-            return <></>
-        }
-    }
     return (
         <div>
             <Grid container className={classes.root}>
@@ -44,9 +35,6 @@ const GameDetails = (props) => {
                 <Grid item xs={12}>
                     <p id="spring-modal-description">{props.game.summary}</p>
                 </Grid>
-            </Grid>
-            <Grid container>
-                {displayScreenshots()}
             </Grid>
         </div>
     )
