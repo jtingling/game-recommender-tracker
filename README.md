@@ -8,7 +8,7 @@ Live app available at: https://game-tracker-recommender.firebaseapp.com/
 
 * Track your games, your list is preserved across browser sessions
 * No account required
-* Get recommendations, more favourited games, the more varied the recommendations
+* Get recommendations, the more favourited games you have, the more varied the recommendations
 * Watch trailers
 * View screenshots
 
