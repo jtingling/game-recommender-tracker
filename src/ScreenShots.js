@@ -17,35 +17,42 @@ const ScreenShots = (props) => {
     const classes = useStyles();
 
     const displayScreenshots = () => {
-        if (props.deviceWidth > 600) {
-            return (
-                <div className={classes.screenshotsDesktop}>
-                    <Carousel autoPlay={true} interval={2000} showThumbs={false} infiniteLoop={true}>
-                    {
+        if (props.game.screenshots !== undefined) {
+            if (props.deviceWidth > 600) {
+                return (
+                    <div className={classes.screenshotsDesktop}>
+                        <Carousel autoPlay={true} interval={2000} showThumbs={false} infiniteLoop={true}>
+                        {
                             props.game.screenshots.map((image) => {
                                 return (
                                     <img src={`https://images.igdb.com/igdb/image/upload/t_screenshot_huge/${image.image_id}.jpg`} alt='game' />
                                 )
                             })
                         }
-                    </Carousel>
-                </div>
-            )
-        } else if (props.deviceWidth < 600) {
-            return (
-                <div className={classes.screenshotsMobile}>
-                    <Carousel autoPlay={true} interval={2000} showThumbs={false} infiniteLoop={true}>
-                    {
+                        </Carousel>
+                    </div>
+                )
+            } else if (props.deviceWidth < 600) {
+                return (
+                    <div className={classes.screenshotsMobile}>
+                        <Carousel autoPlay={true} interval={2000} showThumbs={false} infiniteLoop={true}>
+                        {
                             props.game.screenshots.map((image) => {
                                 return (
                                     <img src={`https://images.igdb.com/igdb/image/upload/t_logo_med/${image.image_id}.jpg`} alt='game' />
                                 )
                             })
                         }
-                    </Carousel>
-                </div>
-            )   
+                        </Carousel>
+                    </div>
+                )   
+            }
+        } else {
+            return (
+                <h6>No screenshots available</h6>
+            )
         }
+
     }
     return (
         <>
