@@ -18,4 +18,4 @@ Live app available at: https://game-tracker-recommender.firebaseapp.com/
 * Material-UI
 * Node.js/Express.js
 * MongoDB
-
+* IGDB API
