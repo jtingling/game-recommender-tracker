@@ -27,7 +27,7 @@ export default function RemoveGameFromList(props) {
       return game.id;
     })
 
-    fetch(`http://game-recommender-be.herokuapp.com/remove`, {
+    fetch(`https://game-recommender-be.herokuapp.com/remove`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
