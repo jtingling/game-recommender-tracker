@@ -158,7 +158,6 @@ const GameCard = (props) => {
                 </div>
                 <div onClick={() => {handleScreenShots(); handleScreenShots()}}>
                     <GameModal isScreenShotsOpen={openScreenShots} type={"View Screenshots"}>
-                        {console.log(props.game)}
                         <ScreenShots game={props.game} deviceWidth={viewPortWidth} />
                     </GameModal>
                 </div>
